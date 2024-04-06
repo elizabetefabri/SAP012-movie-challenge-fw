@@ -1,3 +1,6 @@
+import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MovieListComponent } from './movie-list.component';
@@ -10,8 +13,13 @@ describe('MovieListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MovieListComponent, MovieCardComponent]
-    });
+      declarations: [MovieListComponent, MovieCardComponent],
+      imports: [
+        HttpClientModule,
+        MatCardModule,
+        RouterModule.forRoot([])
+      ],
+    }).compileComponents;
     fixture = TestBed.createComponent(MovieListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

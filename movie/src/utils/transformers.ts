@@ -19,3 +19,10 @@ export function formatMovie(apiMovieData: any, genresMap: Map<number, string>): 
 export function formatGenresToMap(genresData: { id: number, name: string }[]): Map<number, string> {
   return new Map(genresData.map(genre => [genre.id, genre.name]));
 }
+
+export function formatGenresToOptions(genresData: { id: number, name: string }[]): Array<{value: string, label: string}> {
+  return genresData.map(genre => ({
+    value: genre.id.toString(),
+    label: genre.name
+  }));
+}
