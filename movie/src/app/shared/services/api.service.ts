@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 import { Movie } from 'src/models/Movie';
-import { formatMovie} from 'src/utils/transformers';
+import { formatMovie, formatGenresToMap } from 'src/utils/transformers';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class ApiService {
     // Primeiro, recuperamos os gêneros para garantir que temos o mapeamento disponível
     return this.getMovieGenres().pipe(
       switchMap(genresArray => {
-        // const genresMap = formatGenresToMap(genresArray);
+        const genresMap = formatGenresToMap(genresArray);
 
         const url = `https://api.themoviedb.org/3/movie/${id}`;
         const headers = {
@@ -26,7 +26,7 @@ export class ApiService {
 
         // Agora, recuperamos os detalhes do filme
         return this.http.get<any>(url, { headers }).pipe(
-          map(apiMovieData => formatMovie(apiMovieData))
+          map(apiMovieData => formatMovie(apiMovieData, genresMap))
         );
       })
     );
@@ -36,6 +36,8 @@ export class ApiService {
 
     return this.getMovieGenres().pipe(
       switchMap(genresArray => {
+        const genresMap = formatGenresToMap(genresArray);
+
         const queryParams = new URLSearchParams({
           page: `${filters.page || 1}`,
           ...(filters.genreId && { with_genres: `${filters.genreId}` }),
@@ -56,7 +58,7 @@ export class ApiService {
                 totalPages: apiResponse.total_pages,
               },
             },
-            movies: apiResponse.results.map((movie: any) => formatMovie(movie)),
+            movies: apiResponse.results.map((movie: any) => formatMovie(movie, genresMap)), // Agora passando genresMap
           }))
         );
       })

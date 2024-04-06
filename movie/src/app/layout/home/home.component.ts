@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { Genre } from 'src/models/Genre';
 import { Movie } from 'src/models/Movie';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
-
 export class HomeComponent implements OnInit {
   movies: Movie[] = [];
   genreOptions: string[] = [];
@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
   toClear: boolean = false;
 
   constructor(
-    private apiService: ApiService,
+    private ApiService: ApiService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadGenres();
     // this.loadMovies(this.paginationState.currentPage);
     this.route.queryParams.subscribe(params => {
       const genreId = params['genreId'] ? parseInt(params['genreId'], 10) : undefined;
@@ -48,13 +49,46 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  clearFilters(): void {
+    this.loadMovies(1);
+    this.selectedGenreValue = "0"
+    this.selectedSortValue = ""
+    this.router.navigate([], { queryParams: {genreId: this.selectedGenreValue, sortBy: this.selectedSortValue, currentPage: 1}});
+    this.toClear = true
+
+  }
+
+  loadGenres(): void {
+    this.ApiService.getMovieGenres().subscribe(genres => {
+      this.genreOptions = genres.map(genre => {
+        return JSON.stringify( {
+          value: genre.id.toString(),
+          label: genre.name
+        } as Genre )
+        }
+
+      );
+
+      this.selectedGenreValue = "0"
+      this.selectedSortValue = ""
+    });
+  }
+
+  onGenreChange(selectedGenre: string): void {
+    this.router.navigate([], { queryParams: { genreId: selectedGenre, currentPage: 1 }, queryParamsHandling: 'merge' });
+  }
+
+  onSortChange(selectedSort: string): void {
+    this.router.navigate([], { queryParams: { sortBy: selectedSort, currentPage: 1 }, queryParamsHandling: 'merge' });
+  }
 
   loadMovies(currentPage: number, genreId?: number, sortBy?: string): void {
     this.loading = true;
-    this.apiService.getMovies({ page: currentPage, genreId, sortBy }).subscribe(
+    this.ApiService.getMovies({ page: currentPage, genreId, sortBy }).subscribe(
       (response: any) => {
         this.movies = response.movies;
-
+        this.paginationState.currentPage = response.metaData.pagination.currentPage;
+        this.paginationState.totalPages = response.metaData.pagination.totalPages;
         this.loading = false;
       },
       error => {
@@ -65,6 +99,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-
+  onPageChange(page: number): void {
+    this.router.navigate([], { queryParams: { currentPage: page } });
+  }
 }
-
