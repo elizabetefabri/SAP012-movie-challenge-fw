@@ -10,13 +10,15 @@ import { MovieCardComponent } from './layout/movie-card/movie-card.component';
 import { MovieListComponent } from './layout/movie-list/movie-list.component';
 import { HomeComponent } from './layout/home/home.component';
 import { ApiService } from './shared/services/api.service';
+import { MoviePaginationComponent } from './layout/movie-pagination/movie-pagination.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovieCardComponent,
     MovieListComponent,
-    HomeComponent
+    HomeComponent,
+    MoviePaginationComponent
   ],
   imports: [
     BrowserModule,
