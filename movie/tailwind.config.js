@@ -13,7 +13,10 @@ module.exports = {
         "color-background": "#040714",
         "color-font": "#FFFEFD",
         "color-red": "#E5382A",
-      }
+      },
+      maxWidth: {
+        '1440': '1440px', // Adiciona um novo valor de maxWidth chamado '1440' que se aplica a '1440px'
+      },
     },
   },
   plugins: [],

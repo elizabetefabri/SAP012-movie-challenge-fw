@@ -12,7 +12,11 @@ import { HomeComponent } from './layout/home/home.component';
 import { ApiService } from './shared/services/api.service';
 import { MoviePaginationComponent } from './layout/movie-pagination/movie-pagination.component';
 import { MatCardModule } from '@angular/material/card';
-
+import { ListOptionsComponent } from './layout/list-options/list-options.component';
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,8 @@ import { MatCardModule } from '@angular/material/card';
     MovieCardComponent,
     MovieListComponent,
     HomeComponent,
-    MoviePaginationComponent
+    MoviePaginationComponent,
+    ListOptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +33,11 @@ import { MatCardModule } from '@angular/material/card';
     HttpClientModule,
     CommonModule,
     BrowserAnimationsModule,
-    MatCardModule
+    MatCardModule,
+    FormsModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatPaginatorModule,
   ],
   exports: [MovieCardComponent],
   providers: [ApiService],

@@ -6,7 +6,8 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { Movie } from 'src/models/Movie';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MovieListComponent } from '../movie-list/movie-list.component';
-
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { ListOptionsComponent } from '../list-options/list-options.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -25,6 +26,8 @@ describe('HomeComponent', () => {
       declarations: [
         HomeComponent,
         MovieListComponent,
+        MatProgressBar,
+        ListOptionsComponent
       ],
       providers: [
         ApiService,
@@ -40,7 +43,6 @@ describe('HomeComponent', () => {
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     route = TestBed.inject(ActivatedRoute);
   });
-
 
   it('deve criar', () => {
     expect(component).toBeTruthy();
@@ -67,18 +69,18 @@ describe('HomeComponent', () => {
         vote_average: 8.0
       },
     ];
-    // spyOn(ApiService, 'getMovies').and.returnValue(
-    //   of({
-    //     filters: { page: 1 },
-    //     metaData: { pagination: { currentPage: 1, totalPages: 1 } },
-    //     movies: movies,
-    //   })
-    // );
-    // expect(movies).toBeTruthy();
-    // component.ngOnInit();
-    // tick(3000);
-    // expect(ApiService.getMovies).toHaveBeenCalled();
-    // expect(component.movies).toEqual(movies);
+    spyOn(apiService, 'getMovies').and.returnValue(
+      of({
+        filters: { page: 1 },
+        metaData: { pagination: { currentPage: 1, totalPages: 1 } },
+        movies: movies,
+      })
+    );
+    expect(movies).toBeTruthy();
+    component.ngOnInit();
+    tick(3000);
+    expect(apiService.getMovies).toHaveBeenCalled();
+    expect(component.movies).toEqual(movies);
   }));
 
   it('deve navegar para a página correta quando onPageChange for chamado', () => {
@@ -88,4 +90,5 @@ describe('HomeComponent', () => {
       queryParams: { currentPage: page },
     });
   });
+
 });
