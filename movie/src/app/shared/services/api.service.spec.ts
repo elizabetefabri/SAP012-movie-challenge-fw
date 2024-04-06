@@ -79,4 +79,38 @@ it('deve lidar com erro de solicitação de API', () => {
 
 });
 
+  // TESTE DE PAGINAÇÃO
+  it('deve recuperar filmes com as informações de paginação', () => {
+    const genresMockResponse = {
+     genres: [
+       { id: 28, name: 'Action' },
+       { id: 12, name: 'Adventure' },
+     ],
+   };
+
+   const moviesMockResponse = {
+     page: 1,
+     total_pages: 10,
+     results: [
+       { id: 1, title: 'Movie 1', genre_ids: [28] },
+       { id: 2, title: 'Movie 2', genre_ids: [12] },
+     ],
+   };
+
+   service.getMovies().subscribe((res) => {
+     expect(res.metaData.pagination.currentPage).toBe(1);
+     expect(res.metaData.pagination.totalPages).toBe(10);
+     expect(res.movies.length).toBe(2);
+   });
+
+   const reqGenres = httpMock.expectOne(`https://api.themoviedb.org/3/genre/movie/list`);
+   expect(reqGenres.request.method).toBe('GET');
+   reqGenres.flush(genresMockResponse);
+
+   const reqMovies = httpMock.expectOne(r => r.url.includes('https://api.themoviedb.org/3/discover/movie'));
+   expect(reqMovies.request.method).toBe('GET');
+   reqMovies.flush(moviesMockResponse);
+ });
+
+
 });

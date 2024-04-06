@@ -24,7 +24,6 @@ export class ApiService {
           'Authorization': `Bearer ${environment.TOKEN_API}`,
         };
 
-        // Agora, recuperamos os detalhes do filme
         return this.http.get<any>(url, { headers }).pipe(
           map(apiMovieData => formatMovie(apiMovieData, genresMap))
         );
@@ -74,7 +73,4 @@ export class ApiService {
       map(apiResponse => apiResponse.genres)
     );
   }
-
-
-
 }
