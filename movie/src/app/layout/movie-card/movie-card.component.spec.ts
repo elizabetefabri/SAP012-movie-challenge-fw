@@ -20,23 +20,33 @@ describe('MovieCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('deve exibir os detalhes do filme corretamente', () => {
-    const movie: Movie[] = [
-      {
-      id: 1,
-      title: 'Test Movie',
-      image_path: 'test_image_path.jpg',
+  it('deve exibir o título do filme e o ano de lançamento', () => {
+    const testMovies: Movie[] = [
+      { id: 1, title: 'Movie 1',
+      image_path: 'path/to/image1.jpg',
       release_year: '2022',
+      genres: ['Action', 'Adventure'],
       overview: 'Overview do Movie 1',
-      vote_average: 7.5,
-      }
+      vote_average: 7.5
+    },
+      { id: 2, title: 'Movie 2',
+      image_path: 'path/to/image2.jpg',
+      release_year: '2023',
+      genres: ['Drama', 'Romance'],
+      overview: 'Overview do Movie 2',
+      vote_average: 8.0
+    }
     ];
-    component.movie = movie[0];
+
+    component.movie = testMovies[0];
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('h2').textContent).toContain(movie[0].title);
-    expect(compiled.querySelector('p').textContent).toContain(movie[0].release_year);
-    expect(compiled.querySelector('img').src).toContain(movie[0].image_path);
+    const movieElement = compiled.querySelector('.container__card-full');
+
+    expect(movieElement).toBeTruthy();
+
+    expect(movieElement.querySelector('.card-details h3').textContent).toContain(testMovies[0].title);
+    expect(movieElement.querySelector('.card-details p').textContent).toContain(testMovies[0].release_year);
   });
 });

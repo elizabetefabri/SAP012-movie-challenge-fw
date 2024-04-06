@@ -26,12 +26,14 @@ describe('MovieListComponent', () => {
       { id: 1, title: 'Movie 1',
       image_path: 'path/to/image1.jpg',
       release_year: '2022',
+      genres: ['Action', 'Adventure'],
       overview: 'Overview do Movie 1',
         vote_average: 7.5
     },
       { id: 2, title: 'Movie 2',
       image_path: 'path/to/image2.jpg',
       release_year: '2023',
+      genres: ['Drama', 'Romance'],
       overview: 'Overview do Movie 2',
       vote_average: 8.0
     }
