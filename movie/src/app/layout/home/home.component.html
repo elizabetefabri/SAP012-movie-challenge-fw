@@ -1,4 +1,6 @@
-<app-movie-list [movies]="movies"></app-movie-list>
+<div *ngIf="!movies || (movies.length === 0 )" class="flex justify-center" >
+  <!-- <mat-progress-bar class="bg-rose-500 spinner-movie" mode="indeterminate"></mat-progress-bar> -->
+</div>
 
 <div *ngIf="loading" class="loading-indicator">
 </div>
@@ -6,3 +8,11 @@
 <div *ngIf="error" class="error-message">
   <p>{{ error }}</p>
 </div>
+
+<app-movie-list  [movies]="movies"></app-movie-list>
+
+<app-movie-pagination *ngIf="movies && movies.length > 0"
+  [currentPage]="paginationState.currentPage"
+  [totalPages]="paginationState.totalPages"
+  (onSelectPage)="onPageChange($event)">
+</app-movie-pagination>
