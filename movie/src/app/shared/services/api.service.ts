@@ -1,28 +1,78 @@
-import { environment } from 'src/environments/environment.development';
-import { formatMovie } from 'src/utils/transformers';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { Movie } from 'src/models/Movie';
+import { Observable, switchMap } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
+import { Movie } from 'src/models/Movie';
+import { formatMovie} from 'src/utils/transformers';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ApiService {
-  public readonly API_URL = 'https://api.themoviedb.org/3'
-  private readonly TOKEN_API = environment;
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
+  getMovieDetail(id: number): Observable<Movie> {
+    // Primeiro, recuperamos os gêneros para garantir que temos o mapeamento disponível
+    return this.getMovieGenres().pipe(
+      switchMap(genresArray => {
+        // const genresMap = formatGenresToMap(genresArray);
 
-  getMovies(): Observable<Movie[]> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.TOKEN_API}`
-    });
+        const url = `https://api.themoviedb.org/3/movie/${id}`;
+        const headers = {
+          'Authorization': `Bearer ${environment.TOKEN_API}`,
+        };
 
-    return this.http.get<any>(`${this.API_URL}/discover/movie`, { headers }).pipe(
-      map(response => response.results.map((apiMovieData: any) => formatMovie(apiMovieData)))
+        // Agora, recuperamos os detalhes do filme
+        return this.http.get<any>(url, { headers }).pipe(
+          map(apiMovieData => formatMovie(apiMovieData))
+        );
+      })
     );
   }
+
+  getMovies(filters: { page: number, genreId?: number, sortBy?: string } = { page: 1 }): Observable<{ filters: { page: number, genreId?: number, sortBy?: string }, metaData: { pagination: { currentPage: number; totalPages: number } }, movies: Movie[] }> {
+
+    return this.getMovieGenres().pipe(
+      switchMap(genresArray => {
+        const queryParams = new URLSearchParams({
+          page: `${filters.page || 1}`,
+          ...(filters.genreId && { with_genres: `${filters.genreId}` }),
+          ...(filters.sortBy && { sort_by: filters.sortBy }),
+        }).toString();
+
+        const url = `https://api.themoviedb.org/3/discover/movie?${queryParams}`;
+        const headers = {
+          'Authorization': `Bearer ${environment.TOKEN_API}`,
+        };
+
+        return this.http.get<any>(url, { headers }).pipe(
+          map(apiResponse => ({
+            filters: { page: apiResponse.page },
+            metaData: {
+              pagination: {
+                currentPage: apiResponse.page,
+                totalPages: apiResponse.total_pages,
+              },
+            },
+            movies: apiResponse.results.map((movie: any) => formatMovie(movie)),
+          }))
+        );
+      })
+    );
+  }
+
+  getMovieGenres(): Observable<{ id: number; name: string }[]> {
+    const url = 'https://api.themoviedb.org/3/genre/movie/list';
+    const headers = {
+      'Authorization': `Bearer ${environment.TOKEN_API}`,
+    };
+    return this.http.get<any>(url, { headers }).pipe(
+      map(apiResponse => apiResponse.genres)
+    );
+  }
+
+
+
 }

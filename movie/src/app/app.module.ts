@@ -25,6 +25,7 @@ import { ApiService } from './shared/services/api.service';
     CommonModule,
     BrowserAnimationsModule,
   ],
+  exports: [MovieCardComponent],
   providers: [ApiService],
   bootstrap: [AppComponent]
 })
