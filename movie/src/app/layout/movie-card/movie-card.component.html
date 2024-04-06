@@ -1,1 +1,7 @@
-<p>movie-card works!</p>
+<div class="movie-card">
+  <img [src]="movie?.image_path" alt="">
+  <div class="movie-details">
+    <h2>{{ movie?.title }}</h2>
+    <p>{{ movie?.release_year }}</p>
+  </div>
+</div>
