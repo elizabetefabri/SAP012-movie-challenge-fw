@@ -9,21 +9,18 @@ import { Genre } from 'src/models/Genre';
 export class ListOptionsComponent implements OnChanges, DoCheck {
   @Input() options: string[] = [];
   @Input() selectedOption: string = "0";
-  @Input() toClear: boolean = false;
+  @Input() isSorting: boolean = true;
   optionsObj: Genre[] = [];
-
-  // selectedOptionStr: string = "0";
+  @Input() optionTitle:string = "--Por favor escolha uma opção--";
 
   @Output() onChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() onClear: EventEmitter<void> = new EventEmitter();
 
   constructor() { }
   ngDoCheck(): void {
-    // if(this.toClear){
-    //   this.selectedOption = "0"
-    // }
-
-    // console.log(this.selectedOption)
+    if(this.onClear){
+      this.selectedOption = "0"
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -32,6 +29,11 @@ export class ListOptionsComponent implements OnChanges, DoCheck {
     // console.log(changes['selectedOption'].currentValue)
   }
 
+  clearSelections(): void {
+    // Limpa a seleção do componente
+    this.selectedOption = "0";
+    this.onClear.emit();
+  }
   selectOption(): void {
     this.onChange.emit(this.selectedOption);
   }

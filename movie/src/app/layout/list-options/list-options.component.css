@@ -10,22 +10,14 @@
   background-color: transparent;
   width: 100%;
   cursor: pointer;
+  color: white;
+}
+.form-select:focus {
+  outline: none;
 }
 .form-select option{
   background-color: #0E1428;
   padding: 8px 4px;
   border-radius: 20px;
 }
- option{
-  background-color: #0E1428;
-  padding: 8px 4px;
-  border-radius: 20px;
-}
 
-select:focus {
-  outline: none;
-}
-
-input:focus {
-  outline: none;
-}
