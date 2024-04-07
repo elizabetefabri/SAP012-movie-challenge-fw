@@ -4,6 +4,11 @@ import { AppComponent } from './app.component';
 import { MovieCardComponent } from './layout/movie-card/movie-card.component';
 import { MovieListComponent } from './layout/movie-list/movie-list.component';
 import { HomeComponent } from './layout/home/home.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
+import { ListOptionsComponent } from './layout/list-options/list-options.component';
+import { MovieDetailComponent } from './layout/movie-detail/movie-detail.component';
+import { MoviePaginationComponent } from './layout/movie-pagination/movie-pagination.component';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -13,6 +18,11 @@ describe('AppComponent', () => {
       MovieCardComponent,
       MovieListComponent,
       HomeComponent,
+      HeaderComponent,
+      FooterComponent,
+      ListOptionsComponent,
+      MovieDetailComponent,
+      MoviePaginationComponent
     ]
   }));
 
