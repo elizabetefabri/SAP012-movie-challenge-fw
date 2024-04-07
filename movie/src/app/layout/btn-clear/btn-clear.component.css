@@ -7,7 +7,7 @@
 @media (min-width: 767px) {
   .btn-clear {
     width: 100px;
-
+    text-align: center;
   }
 }
 /* Restante do seu CSS */
