@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ApiService } from './api.service';
 import { Movie } from 'src/models/Movie';
+import { environment } from 'src/environments/environment';
 
 describe('ApiService', () => {
   let service: ApiService;
@@ -112,5 +113,96 @@ it('deve lidar com erro de solicitação de API', () => {
    reqMovies.flush(moviesMockResponse);
  });
 
+// BEM SUCEDIDO LISTA DE GÊNEROS
+it('deve retornar a lista de gêneros de filmes se a solicitação da API foi bem-sucedida', () => {
+  const mockGenresResponse = {
+    genres: [
+      { id: 28, name: 'Action' },
+      { id: 12, name: 'Adventure' },
+    ],
+  };
 
+  service.getMovieGenres().subscribe((genres) => {
+    expect(genres.length).toBe(2);
+    expect(genres[0].id).toBe(28);
+    expect(genres[0].name).toBe('Action');
+  });
+
+  // Verificando a solicitação com o cabeçalho correto
+  const req = httpMock.expectOne(
+    (req) =>
+      req.url === 'https://api.themoviedb.org/3/genre/movie/list' &&
+      req.headers.has('Authorization') &&
+      req.headers.get('Authorization') === `Bearer ${environment.TOKEN_API}`
+  );
+  expect(req.request.method).toBe('GET');
+  req.flush(mockGenresResponse);
+});
+
+it('deve filtrar filmes por gênero quando um genreId é fornecido', () => {
+  const mockGenresResponse = { genres: [{ id: 28, name: 'Action' }] };
+  const mockFilteredMoviesResponse = {
+    page: 1,
+    total_pages: 1,
+    results: [{ id: 1, title: 'Action Movie', genre_ids: [28] }],
+  };
+
+  service.getMovies({ page: 1, genreId: 28 }).subscribe((res) => {
+    expect(res.movies.length).toBe(1);
+    expect(res.movies[0].genres).toContain('Action');
+  });
+
+  const reqGenres = httpMock.expectOne('https://api.themoviedb.org/3/genre/movie/list');
+  reqGenres.flush(mockGenresResponse);
+
+  const reqMovies = httpMock.expectOne((req) => req.url.includes('with_genres=28'));
+  expect(reqMovies.request.method).toBe('GET');
+  reqMovies.flush(mockFilteredMoviesResponse);
+});
+
+it('deve ordenar filmes conforme o critério sortBy fornecido', () => {
+  const mockGenresResponse = { genres: [{ id: 28, name: 'Action' }] };
+  const mockSortedMoviesResponse = {
+    page: 1,
+    total_pages: 1,
+    results: [
+      { id: 2, title: 'Movie B', release_date: '2020-01-02' },
+      { id: 1, title: 'Movie A', release_date: '2020-01-01' }
+    ],
+  };
+
+  service.getMovies({ page: 1, sortBy: 'release_date.desc' }).subscribe((res) => {
+    expect(res.movies[0].title).toBe('Movie B');
+    expect(res.movies[1].title).toBe('Movie A');
+  });
+
+  const reqGenres = httpMock.expectOne('https://api.themoviedb.org/3/genre/movie/list');
+  reqGenres.flush(mockGenresResponse);
+
+  const reqMovies = httpMock.expectOne((req) => req.url.includes('sort_by=release_date.desc'));
+  expect(reqMovies.request.method).toBe('GET');
+  reqMovies.flush(mockSortedMoviesResponse);
+});
+
+it('deve usar valores padrão para genreId e sortBy quando não fornecidos', () => {
+  const mockGenresResponse = { genres: [{ id: 28, name: 'Action' }] };
+  const mockMoviesResponse = {
+    page: 1,
+    total_pages: 1,
+    results: [{ id: 1, title: 'Movie', genre_ids: [28] }],
+  };
+
+  service.getMovies({ page: 1 }).subscribe((res) => {
+    expect(res.movies.length).toBe(1);
+    expect(res.filters.genreId).toBeUndefined();
+    expect(res.filters.sortBy).toBeUndefined();
+  });
+
+  const reqGenres = httpMock.expectOne('https://api.themoviedb.org/3/genre/movie/list');
+  reqGenres.flush(mockGenresResponse);
+
+  const reqMovies = httpMock.expectOne((req) => !req.url.includes('with_genres') && !req.url.includes('sort_by'));
+  expect(reqMovies.request.method).toBe('GET');
+  reqMovies.flush(mockMoviesResponse);
+});
 });

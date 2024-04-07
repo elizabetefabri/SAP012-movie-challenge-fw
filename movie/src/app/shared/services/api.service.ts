@@ -14,7 +14,7 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   getMovieDetail(id: number): Observable<Movie> {
-    // Primeiro, recuperamos os gêneros para garantir que temos o mapeamento disponível
+    // metodo getMovieDetail ok
     return this.getMovieGenres().pipe(
       switchMap(genresArray => {
         const genresMap = formatGenresToMap(genresArray);
