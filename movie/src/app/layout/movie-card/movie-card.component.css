@@ -16,6 +16,7 @@
 .container__card-full {
   transition: all 0.3s ease;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .container__card-full:hover {
