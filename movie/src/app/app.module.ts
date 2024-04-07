@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { MovieDetailComponent } from './layout/movie-detail/movie-detail.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MovieListComponent,
     HomeComponent,
     MoviePaginationComponent,
-    ListOptionsComponent
+    ListOptionsComponent,
+    MovieDetailComponent
   ],
   imports: [
     BrowserModule,
