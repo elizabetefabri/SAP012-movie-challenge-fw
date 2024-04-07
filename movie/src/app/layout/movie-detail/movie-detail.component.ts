@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Movie } from 'src/models/Movie';
 import { Location } from "@angular/common";
+import { Genre } from 'src/models/Genre';
 
 @Component({
   selector: 'app-movie-detail',
@@ -11,6 +12,7 @@ import { Location } from "@angular/common";
 })
 export class MovieDetailComponent implements OnInit{
   @Input() movie: Movie | undefined;
+
   loading: boolean = false;
   error: string = '';
 

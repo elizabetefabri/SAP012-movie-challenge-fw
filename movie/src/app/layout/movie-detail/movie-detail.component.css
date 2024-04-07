@@ -12,11 +12,7 @@ i {
   margin-right: 10px;
 }
 
-img {
-  width: 70%;
-  height: auto;
-  border-radius: 10px;
-}
+
 h2{
   margin-bottom: 20px;
 }
@@ -43,4 +39,29 @@ span {
   background-color: rgba(229,56,42, 0.2);
   border-radius: 20px;
   padding: 2px 4px;
+}
+
+@media (min-width: 767px){
+  img {
+    width: 70%;
+    height: auto;
+    border-radius: 10px;
+  }
+}
+@media (max-width: 767px){
+  section{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+  .mobile {
+    width: 100%;
+  }
+  .mobile-image{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 }
