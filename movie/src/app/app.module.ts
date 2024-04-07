@@ -18,6 +18,9 @@ import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MovieDetailComponent } from './layout/movie-detail/movie-detail.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
+import { BtnClearComponent } from './layout/btn-clear/btn-clear.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { MovieDetailComponent } from './layout/movie-detail/movie-detail.compone
     HomeComponent,
     MoviePaginationComponent,
     ListOptionsComponent,
-    MovieDetailComponent
+    MovieDetailComponent,
+    HeaderComponent,
+    FooterComponent,
+    BtnClearComponent
   ],
   imports: [
     BrowserModule,
