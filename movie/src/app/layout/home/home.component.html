@@ -1,3 +1,4 @@
+<!-- HOME.HTML -->
 <div *ngIf="!movies || (movies.length === 0 )" class="flex justify-center" >
   <mat-progress-bar class="bg-rose-500 spinner-movie" mode="indeterminate"></mat-progress-bar>
 </div>
@@ -11,26 +12,31 @@
 
 <section *ngIf="genreOptions.length > 0" class="container__list-options flex flex-wrap container mx-auto max-w-1440">
   <app-list-options
+    [ngClass]="{'w-full': isMobile, 'md:w-1/2': isMobile}"
     [options]="genreOptions"
     (onChange)="onGenreChange($event)"
     [selectedOption]= "selectedGenreValue"
-    [toClear]="toClear"
-    title="Gêneros">
+    [isSorting]="false"
+    title="Gêneros"
+    [optionTitle]="'--Por favor escolha uma opção--'"
+    (onClear)="clearFilters()">
   </app-list-options>
 
   <app-list-options
+    [ngClass]="{'w-full': isMobile, 'md:w-1/2': isMobile}"
     [options]="sortOptions"
     (onChange)="onSortChange($event)"
     [selectedOption]= "selectedSortValue"
-    [toClear]="toClear"
-    title="Ordenar Por">
+    [isSorting]="true"
+    title="Ordenar Por"
+    [optionTitle]="'--Por favor escolha uma opção--'"
+    (onClear)="clearFilters()">
   </app-list-options>
 
-  <button
-    (click)="clearFilters()"
-    class="btn-clear">
-    Limpar
-  </button>
+  <app-btn-clear
+  [ngClass]="{'w-full': isMobile, 'md:w-1/2': isMobile}"
+  ></app-btn-clear>
+
 </section>
 
 <app-movie-list  [movies]="movies"></app-movie-list>

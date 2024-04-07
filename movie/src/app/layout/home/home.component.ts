@@ -27,14 +27,15 @@ export class HomeComponent implements OnInit {
   loading: boolean = true;
   selectedGenreValue: string = "0"
   selectedSortValue: string = ""
-  toClear: boolean = false;
+  // toClear: boolean = true;
+  isMobile: boolean = false;
 
   constructor(
     private ApiService: ApiService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.loadMovies(this.paginationState.currentPage);
+    // this.loadMovies(this.paginationState.currentPage);
   }
 
   ngOnInit(): void {
@@ -45,17 +46,23 @@ export class HomeComponent implements OnInit {
       const sortBy = params['sortBy'];
       const currentPage = params['currentPage'] ? parseInt(params['currentPage'], 10) : 1;
       this.loadMovies(currentPage, genreId, sortBy);
-      this.toClear = false;
+      // this.toClear = false;
+      this.checkIsMobile();
     });
   }
 
-  clearFilters(): void {
-    this.loadMovies(1);
-    this.selectedGenreValue = "0"
-    this.selectedSortValue = ""
-    this.router.navigate([], { queryParams: {genreId: this.selectedGenreValue, sortBy: this.selectedSortValue, currentPage: 1}});
-    this.toClear = true
+  private checkIsMobile(): void {
+    const screenWidth = window.innerWidth;
+    this.isMobile = screenWidth < 768;
+  }
 
+  clearFilters(): void {
+    this.selectedGenreValue = "0";
+    this.selectedSortValue = "0";
+    this.loadMovies(1);
+    // this.router.navigate([], { queryParams: { genreId: this.selectedGenreValue, sortBy: this.selectedSortValue, currentPage: 1 } });
+    this.router.navigate(['/home']);
+    // this.toClear = true;
   }
 
   loadGenres(): void {
@@ -66,9 +73,7 @@ export class HomeComponent implements OnInit {
           label: genre.name
         } as Genre )
         }
-
       );
-
       this.selectedGenreValue = "0"
       this.selectedSortValue = ""
     });
@@ -98,8 +103,13 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-
   onPageChange(page: number): void {
     this.router.navigate([], { queryParams: { currentPage: page } });
   }
+  handleClear(): void {
+    // Limpa as variáveis relevantes no componente pai
+    this.selectedGenreValue = "";
+    this.selectedSortValue = "";
+  }
+
 }
