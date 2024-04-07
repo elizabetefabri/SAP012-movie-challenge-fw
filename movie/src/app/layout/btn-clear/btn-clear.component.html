@@ -1,0 +1,9 @@
+<section class="mx-auto max-w-1440 px-4">
+  <div class="mt-5 w-full flex flex-col md:flex-row gap-4 items-center justify-start">
+
+  <!-- <button (click)="clearFilters()" class="btn-clear">Limpar</button> -->
+  <button (click)="clearFilters()" class="btn-clear" [ngClass]="{'w-full': isMobile, 'md:w-1/2': isMobile}"
+  [ngStyle]="{'flex-direction': isMobile ? 'column' : 'row'}">Limpar</button>
+
+  </div>
+</section>

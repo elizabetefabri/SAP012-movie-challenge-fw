@@ -1,0 +1,30 @@
+@media (max-width: 767px) {
+  .btn-clear {
+    width: 100%;
+    height: 40px; /* Ajuste a altura automaticamente para se ajustar ao conteúdo */
+  }
+}
+@media (min-width: 767px) {
+  .btn-clear {
+    width: 100px;
+
+  }
+}
+/* Restante do seu CSS */
+.btn-clear {
+  border-radius: 0.375rem;
+  border: none;
+  border-bottom: 2px solid #ef4444;
+  border-top: 2px solid #ef4444;
+  background-color: transparent;
+  color: #f9f9f9;
+
+  /* height: 43px; */
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.btn-clear:hover {
+  background-color: rgba(229, 56, 42, 0.3);
+}
