@@ -1,41 +1,43 @@
-import { Component, DoCheck, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Genre } from 'src/models/Genre';
 
 @Component({
   selector: 'app-list-options',
   templateUrl: './list-options.component.html',
-  styleUrls: ['./list-options.component.css']
+  styleUrls: ['./list-options.component.css'],
 })
-export class ListOptionsComponent implements OnChanges, DoCheck {
+export class ListOptionsComponent implements OnInit, OnDestroy {
   @Input() options: string[] = [];
-  @Input() selectedOption: string = "0";
+  @Input() selectedOption: string = '0';
   @Input() isSorting: boolean = true;
   optionsObj: Genre[] = [];
-  @Input() optionTitle:string = "--Por favor escolha uma opção--";
+  @Input() optionTitle: string = '--Por favor escolha uma opção--';
 
   @Output() onChange: EventEmitter<string> = new EventEmitter<string>();
-  @Output() onClear: EventEmitter<void> = new EventEmitter();
+  private clearSubscription: Subscription = new Subscription();
+  @Input() onClear: Observable<string> = new Observable<string>();
 
-  constructor() { }
-  ngDoCheck(): void {
-    if(this.onClear){
-      this.selectedOption = "0"
-    }
+  constructor() {}
+  ngOnDestroy(): void {
+    this.clearSubscription.unsubscribe();
+  }
+  ngOnInit(): void {
+    this.optionsObj = this.options.map((option) => JSON.parse(option));
+    console.log(this.selectedOption);
+    this.clearSubscription = this.onClear.subscribe((option) => {
+      this.selectedOption = option;
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.optionsObj = this.options.map(option => JSON.parse(option));
-    // this.selectedOptionStr = JSON.stringify(this.selectedOption)
-    // console.log(changes['selectedOption'].currentValue)
-  }
-
-  clearSelections(): void {
-    // Limpa a seleção do componente
-    this.selectedOption = "0";
-    this.onClear.emit();
-  }
   selectOption(): void {
     this.onChange.emit(this.selectedOption);
   }
-
 }

@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'app-movie-pagination',
   templateUrl: './movie-pagination.component.html',
-  styleUrls: ['./movie-pagination.component.css']
+  styleUrls: ['./movie-pagination.component.css'],
 })
 export class MoviePaginationComponent implements OnInit {
   @Input() currentPage: number = 1;
@@ -20,7 +20,11 @@ export class MoviePaginationComponent implements OnInit {
 
   generatePages(): void {
     this.pages = [];
-    for (let i = this.currentPage; i <= Math.min(this.currentPage + 5, this.totalPages); i++) {
+    for (
+      let i = this.currentPage;
+      i <= Math.min(this.currentPage + 5, this.totalPages);
+      i++
+    ) {
       this.pages.push(i);
     }
   }
@@ -29,5 +33,5 @@ export class MoviePaginationComponent implements OnInit {
     if (this.totalPages) {
       this.onSelectPage.emit(page);
     }
-}
+  }
 }

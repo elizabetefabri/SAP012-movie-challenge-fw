@@ -1,9 +1,8 @@
 <section class="mx-auto max-w-1440 px-4">
   <div class="mt-5 w-full flex flex-col md:flex-row gap-4 items-center justify-start">
-
-    <select [(ngModel)]="selectedOption" (change)="selectOption()"  class="form-select text-white w-full md:w-auto">
-      <option [value]="0" disabled >{{optionTitle}}</option>
-      <option *ngFor="let option of optionsObj" [value]="option.value" >
+    <select [(ngModel)]="selectedOption" (change)="selectOption()" class="form-select text-white w-full md:w-auto">
+      <option [value]="0" disabled>--Por favor escolha uma opção--</option>
+      <option *ngFor="let option of optionsObj" [value]="option.value">
         {{ option.label }}
       </option>
     </select>

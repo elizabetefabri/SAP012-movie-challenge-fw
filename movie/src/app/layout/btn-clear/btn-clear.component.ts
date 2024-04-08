@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from 'src/app/shared/services/api.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-btn-clear',
   templateUrl: './btn-clear.component.html',
-  styleUrls: ['./btn-clear.component.css']
+  styleUrls: ['./btn-clear.component.css'],
 })
-export class BtnClearComponent implements OnInit{
+
+export class BtnClearComponent implements OnInit {
+  @Output() clearEvent: EventEmitter<void> = new EventEmitter();
   isMobile: boolean = false;
 
   constructor(private router: Router) {}
@@ -22,7 +23,7 @@ export class BtnClearComponent implements OnInit{
   }
 
   clearFilters(): void {
-    this.router.navigate(['/home']);
+    this.clearEvent.emit();
+    // this.router.navigate(['/home']);
   }
-
 }

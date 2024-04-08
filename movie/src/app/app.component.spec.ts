@@ -9,6 +9,7 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { ListOptionsComponent } from './layout/list-options/list-options.component';
 import { MovieDetailComponent } from './layout/movie-detail/movie-detail.component';
 import { MoviePaginationComponent } from './layout/movie-pagination/movie-pagination.component';
+import { BtnClearComponent } from './layout/btn-clear/btn-clear.component';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -22,7 +23,8 @@ describe('AppComponent', () => {
       FooterComponent,
       ListOptionsComponent,
       MovieDetailComponent,
-      MoviePaginationComponent
+      MoviePaginationComponent,
+      BtnClearComponent
     ]
   }));
 

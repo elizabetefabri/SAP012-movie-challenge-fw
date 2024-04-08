@@ -30,7 +30,7 @@ export class ApiService {
       })
     );
   }
-
+// Narrowing
   getMovies(filters: { page: number, genreId?: number, sortBy?: string } = { page: 1 }): Observable<{ filters: { page: number, genreId?: number, sortBy?: string }, metaData: { pagination: { currentPage: number; totalPages: number } }, movies: Movie[] }> {
 
     return this.getMovieGenres().pipe(
