@@ -92,13 +92,6 @@
             ],
             "scripts": []
           }
-        },
-        "deploy": {
-          "builder": "@netlify-builder/deploy:deploy",
-          "options": {
-            "outputPath": "dist/movie",
-            "siteId": "ef4feb40-161f-4ffd-8ffe-9c8f8a4446ff"
-          }
         }
       }
     }
