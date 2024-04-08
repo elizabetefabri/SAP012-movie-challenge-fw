@@ -28,12 +28,12 @@
       <td><img width="30px" height="30px" align="center" alt="icon check" src="./movie/src/assets/check.png"></td>
       <td>Marco 01 - Configuração do projeto</td>
       <td align="center">
-        <a href="https://github.com/elizabetefabri/SAP012-dataverse-chat/blob/main/docs/package/marco-01/README.md" target="_blank">
+        <a href="https://github.com/elizabetefabri/SAP012-movie-challenge-fw/" target="_blank">
            <img align="center" alt="Botao" src="https://img.shields.io/badge/Ver%20desenvolvimento-E5382A?style=for-the-badge" width="250px">
         </a>
       </td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td>02</td>
       <td><img width="30px" height="30px" align="center" alt="icon check" src="./movie/src/assets/check.png"></td>
       <td>Marco 02 - Lista de Filmes</td>
@@ -72,7 +72,7 @@
            <img align="center" alt="Botao" src="https://img.shields.io/badge/Ver%20desenvolvimento-E5382A?style=for-the-badge" width="250px">
         </a>
       </td>
-    </tr>
+    </tr> -->
     </tbody>
   <tfoot>
   </tfoot>
