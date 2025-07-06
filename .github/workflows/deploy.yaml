@@ -30,7 +30,7 @@ jobs:
           echo "};" >> src/environments/environment.ts
 
       - name: Build
-        run: npm run build -- --base-href=/SAP012-dataverse-chat/
+        run: npm run build -- --base-href=/SAP012-movie-challenge-fw/
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
