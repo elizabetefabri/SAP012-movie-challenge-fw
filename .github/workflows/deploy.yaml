@@ -1,0 +1,39 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate environment.ts
+        run: |
+          mkdir -p src/environments
+          echo "export const environment = {" > src/environments/environment.ts
+          echo "  production: true," >> src/environments/environment.ts
+          echo "  TOKEN_API: '${{ secrets.TOKEN_API }}'" >> src/environments/environment.ts
+          echo "};" >> src/environments/environment.ts
+
+      - name: Build
+        run: npm run build -- --base-href=/SAP012-dataverse-chat/
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist/movie
